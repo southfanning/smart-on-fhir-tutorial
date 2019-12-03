@@ -4,6 +4,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <title>BHS Example-SMART-App</title>
+    <script src="ieUserAgent.js" type="text/javascript"></script>
 
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
     <!--
@@ -12,6 +13,61 @@
     -->
   </head>
   <body>
+  <script>
+    //detects if user is using IE
+    function IEdetection() {
+      //alert(document.documentMode);
+
+      var ua = window.navigator.userAgent;
+      var msie = ua.indexOf('MSIE ');
+      if (msie > 0) {
+          // IE 10 or older, return version number
+          return ('IE ' + parseInt(ua.substring(
+            msie + 5, ua.indexOf('.', msie)), 10));
+      }
+      var trident = ua.indexOf('Trident/');
+      if (trident > 0) {
+          // IE 11, return version number
+          var rv = ua.indexOf('rv:');
+          return ('IE ' + parseInt(ua.substring(
+            rv + 3, ua.indexOf('.', rv)), 10));
+      }
+      var edge = ua.indexOf('Edge/');
+      if (edge > 0) {
+          //Edge (IE 12+), return version number
+          return ('IE ' + parseInt(ua.substring(
+            edge + 5, ua.indexOf('.', edge)), 10));
+      }
+      // User uses other browser
+      return ('Not IE');
+    }
+    var result = IEdetection();
+    document.write(result);
+
+    function isIECompatibilityMode() {
+      var ua = navigator.userAgent;
+      if (ua.indexOf("MSIE") == -1) {
+        return false;
+      }
+      return (ua.indexOf("compatible") != -1);
+    }
+    var result = isIECompatibilityMode();
+    document.write(result);
+    document.write("documentMode: " + document.documentMode);
+
+    console.log(ua);
+</script>
+
+<div id="results">Results:</div>
+<div id="render">Render:</div>
+<script type="text/javascript">
+    var val = "IE" + ieUserAgent.version;
+    if (ieUserAgent.compatibilityMode)
+        val += " Compatibility Mode (IE" + ieUserAgent.renderVersion + " emulation)";
+    $("#results").html("We have detected the following IE browser: " + val);
+    $("#render").html("Render version: " + ieUserAgent.renderVersion);
+</script>
+
     <div id='errors'>
     </div>
     <div id="loading" class="spinner">
